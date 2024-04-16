@@ -1,0 +1,372 @@
+<!-- table  -->
+<ng-template #loading>
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 60vh"
+  >
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>
+<div *ngIf="loaded === false; else loading">
+  <div class="container mt-3 mb-3">
+    <div class="card mt-3">
+      <div class="card-header">Book > List</div>
+      <div class="card-body">
+        <!-- list of button  -->
+        <div class="nav mb-3">
+          <button
+            class="btn btn-outline-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#addBook"
+          >
+            <i class="bi bi-plus-square"></i
+            ><span class="ms-2">Add Book</span></button
+          ><button
+            class="btn btn-outline-secondary ms-2"
+            data-bs-toggle="modal"
+            data-bs-target="#filteringBook"
+          >
+            <i class="bi bi-filter"></i><span class="ms-2">Filtering</span>
+          </button>
+        </div>
+
+        <!-- form search  -->
+        <form [formGroup]="searchFormGroup" (ngSubmit)="handleSearchKeyword()">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              formControlName="keyword"
+            />
+            <button class="btn btn-outline-secondary">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+        <!-- form search  -->
+
+        <!-- table  -->
+        <ng-template #errors>
+          <div class="text-danger">{{ errorMessage }}</div>
+        </ng-template>
+        <table class="table table-striped" *ngIf="bookList; else errors">
+          <thead>
+            <tr>
+              <th>SCORE</th>
+              <th>FILE</th>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Details</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of bookList">
+              <ng-container *ngIf="p.score !== undefined; else noScore">
+                <td>
+                  <span class="ms-2 badge bg-primary rounded-pill">{{
+                    p.score
+                  }}</span>
+                </td>
+              </ng-container>
+              <ng-template #noScore
+                ><td>
+                  <span class="ms-2 badge bg-primary rounded-pill">0</span>
+                </td>
+              </ng-template>
+              <ng-container
+                *ngIf="p.file_type !== 'application/pdf'; else isPdf"
+              >
+                <td><img src="./assets/images/word.png" height="30" /></td>
+              </ng-container>
+              <ng-template #isPdf>
+                <td><img src="./assets/images/pdf.png" height="30" /></td>
+              </ng-template>
+              <td>{{ p.id }}</td>
+              <td>{{ p.name }}</td>
+              <td>
+                <button class="btn btn-secondary" (click)="sortNumbers()">
+                  <i class="bi bi-body-text"></i>
+                </button>
+              </td>
+              <td>
+                <button
+                  class="btn btn-secondary"
+                  (click)="handlOpenEditBox(p)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editProduct"
+                >
+                  <i class="bi bi-pen-fill"></i>
+                </button>
+              </td>
+              <td>
+                <button class="btn btn-danger" (click)="handleDeleteBook()">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filtering Dialog Book  -->
+<div
+  class="modal fade"
+  id="filteringBook"
+  aria-hidden="true"
+  aria-labelledby="addToggleLabel"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filtering Book</h5>
+      </div>
+      <div class="container mt-3 mb-3">
+        <div class="mb-2">
+          <label for="" class="form-label">Author By:</label>
+          <form
+            [formGroup]="AuthorSearchFormGroup"
+            (ngSubmit)="onAddAuthorToSearchList()"
+          >
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="add Author"
+                formControlName="keyword"
+              />
+              <button class="btn btn-outline-secondary">
+                <i class="bi bi-plus-square"></i>
+              </button>
+            </div>
+          </form>
+          <ng-container *ngIf="bookAutherbyList !== []; else noAuotors">
+            <div class="nav-container">
+              <div class="nav" *ngFor="let a of bookAutherbyList">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary"
+                  (click)="onRemoveAuthorToSearchList(a)"
+                >
+                  {{ a }}
+                </button>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #noAuotors> </ng-template>
+        </div>
+        <div class="nav">
+          <div class="mb-2">
+            <label for="" class="form-label">Categories :</label>
+            <div class="dropdown mb-2">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton2"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Select Category
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-dark"
+                aria-labelledby="dropdownMenuButton2"
+              >
+                <li *ngFor="let category of bookCategoryList">
+                  <a
+                    class="dropdown-item"
+                    (click)="onAddCategoryToSearchList(category.toString())"
+                    >{{ category }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <ng-container
+              *ngIf="selectedBookCategoryList !== []; else noCategories"
+            >
+              <div class="nav-container">
+                <div
+                  class="nav"
+                  *ngFor="let category of selectedBookCategoryList"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-outline-secondary"
+                    (click)="onRemoveCategoryToSearchList(category.toString())"
+                  >
+                    {{ category }}
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noCategories> </ng-template>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="handleFilterBooks()"
+          >
+            Filter
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filtering Dialog Book -->
+<!-- Add Dialog Book  -->
+<div
+  class="modal fade"
+  id="addBook"
+  aria-hidden="true"
+  aria-labelledby="addToggleLabel"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Book</h5>
+      </div>
+      <form [formGroup]="bookFormGroup" (ngSubmit)="handleCreateBook()">
+        <div class="container mt-3 mb-3">
+          <div class="mb-4">
+            <label for="" class="form-label">Name</label>
+            <input type="text" class="form-control" formControlName="name" />
+            <small
+              *ngIf="
+                bookFormGroup.controls['name'].errors &&
+                bookFormGroup.controls['name'].touched
+              "
+              class="text-danger"
+            >
+              Name is required
+            </small>
+          </div>
+          <div class="mb-4">
+            <label for="" class="form-label">Book</label>
+            <input
+              type="file"
+              class="form-control"
+              (change)="onFileSelected($event)"
+            />
+          </div>
+
+          <div class="mb-2">
+            <label for="" class="form-label">Author By:</label>
+            <form
+              [formGroup]="AuthorCreateSearchFormGroup"
+              (ngSubmit)="onAddCreateAuthorToSearchList()"
+            >
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="add Author"
+                  formControlName="keyword"
+                />
+                <button class="btn btn-outline-secondary">
+                  <i class="bi bi-plus-square"></i>
+                </button>
+              </div>
+            </form>
+            <ng-container *ngIf="bookCreateAutherbyList !== []; else noAuotors">
+              <div class="nav-container">
+                <div class="nav" *ngFor="let a of bookCreateAutherbyList">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-secondary"
+                    (click)="onRemoveCreateAuthorToSearchList(a)"
+                  >
+                    {{ a }}
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noAuotors> </ng-template>
+          </div>
+          <div class="nav">
+            <div class="mb-2">
+              <label for="" class="form-label">Categories :</label>
+              <div class="dropdown mb-2">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Select Category
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-dark"
+                  aria-labelledby="dropdownMenuButton2"
+                >
+                  <li *ngFor="let category of bookCategoryList">
+                    <a
+                      class="dropdown-item"
+                      (click)="
+                        onAddCreateCategoryToSearchList(category.toString())
+                      "
+                      >{{ category }}</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <ng-container
+                *ngIf="selectedCreateBookCategoryList !== []; else noCategories"
+              >
+                <div class="nav-container">
+                  <div
+                    class="nav"
+                    *ngFor="let category of selectedCreateBookCategoryList"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-outline-secondary"
+                      (click)="
+                        onRemoveCreateCategoryToSearchList(category.toString())
+                      "
+                    >
+                      {{ category }}
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #noCategories> </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Add Dialog Book -->

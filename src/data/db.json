@@ -1,0 +1,142 @@
+{
+  "users": [
+    {
+      "id": "user",
+      "password": "1234",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJuYW1lIjoiYWhtZWRfaGFiaWIiLCJwYXNzd29yZCI6MTIzNDUsInJvbGUiOlsiVVNFUiJdfQ.8vwvzQ0xOrILf8iHUHSgvzRjProxBGLn8wBZCYwpqI0"
+    },
+    {
+      "id": "admin",
+      "password": "12345",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJuYW1lIjoic2lkaV9haG1lZCIsInBhc3N3b3JkIjoxMjM0LCJyb2xlIjpbIkFETUlOIl19.uGmIuzCq9UYB_Pjh9Q6Btd5tTZue5R7y8YafCMtNpnA"
+    }
+  ],
+  "books": [
+    {
+      "id": "88ed287d-f300-dc6c-dd2e-8e42da92d18a",
+      "name": "blue",
+      "initial_date": "2024-04-14T03:10:32.640Z",
+      "file": {},
+      "file_type": "application/pdf",
+      "author_by": [
+        "sidi ahmed ",
+        "sda",
+        "hbb"
+      ],
+      "category": [
+        "Education",
+        "Technology",
+        "Sports",
+        "Psychology"
+      ]
+    },
+    {
+      "id": "af7ecee3-ada9-fb54-4563-1e118e6408ed",
+      "name": "white",
+      "initial_date": "2024-04-14T03:14:59.518Z",
+      "file": {},
+      "file_type": "application/pdf",
+      "author_by": [
+        "med ",
+        "hamza"
+      ],
+      "category": [
+        "Sports",
+        "Health",
+        "Psychology"
+      ]
+    },
+    {
+      "id": "5b224434-8883-0d01-dab5-e5b223a3836e",
+      "name": "Red",
+      "initial_date": "2024-04-14T03:16:52.208Z",
+      "file": {},
+      "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "author_by": [
+        "Med ",
+        "Soule",
+        "cheikh"
+      ],
+      "category": [
+        "Education",
+        "Science",
+        "Business"
+      ]
+    },
+    {
+      "id": "8c363eb5-dd48-c5f7-8544-826a984c26b2",
+      "name": "Move",
+      "initial_date": "2024-04-14T03:30:00.765Z",
+      "file": {},
+      "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "author_by": [
+        "Sda Hbb",
+        "Mo"
+      ],
+      "category": [
+        "Health",
+        "Religion",
+        "Psychology"
+      ]
+    },
+    {
+      "id": "d5043282-c7e6-785e-17c1-bc0925ec25b5",
+      "name": "Noor",
+      "initial_date": "2024-04-14T03:44:56.642Z",
+      "file": {},
+      "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "author_by": [
+        "LOOL",
+        "Med Sidi"
+      ],
+      "category": [
+        "Education",
+        "Technology",
+        "Science"
+      ]
+    },
+    {
+      "id": "80cd3a9b-6c52-4c2f-90e3-574c4ff510b9",
+      "name": "Black",
+      "initial_date": "2024-04-16T03:39:51.976Z",
+      "file": {},
+      "file_type": "application/pdf",
+      "author_by": [
+        "Sidi ",
+        "Nour"
+      ],
+      "category": [
+        "Drama"
+      ]
+    },
+    {
+      "id": "38d223a4-de32-3afb-1966-c0335313df9d",
+      "name": "Magic",
+      "initial_date": "2024-04-16T03:42:07.832Z",
+      "file": {},
+      "file_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "author_by": [
+        "Dour"
+      ],
+      "category": [
+        "Religion",
+        "Psychology"
+      ]
+    },
+    {
+      "id": "9a900077-ad70-2298-5434-c9681f73fe3b",
+      "name": "24hours",
+      "initial_date": "2024-04-16T05:37:20.145Z",
+      "file": {},
+      "file_type": "application/pdf",
+      "author_by": [
+        "Jack ",
+        "Dool"
+      ],
+      "category": [
+        "Business",
+        "Education"
+      ]
+    }
+  ]
+}
